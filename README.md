@@ -232,6 +232,8 @@ Certificate
 https://wloc.xepesw.workers.dev/api/parse
 ```
 
+本仓库的[自用版快捷指令源码](shortcuts/WLOC设置位置-fengsx.shortcut)已把解析地址改为 `https://wloc.myfeng.workers.dev/api/parse`，并更新了内部说明。该文件在 Windows 上生成，未经 Apple 签名，iPhone 可能拒绝直接导入。请先安装上面的 iCloud 版本，再按[使用指南](docs/使用指南.md#把快捷指令改成自己的服务)在 iPhone 上复制并修改；这样也能检查每个动作的实际内容。
+
 维护者已对当前快捷指令的 `/api/parse?format=json` 解析链路进行过真机测试。**这只表示快捷指令解析链路可工作，不代表 iOS 27 正式版支持传统 WLOC。**
 
 已安装的旧快捷指令不会自动更新；如果一直使用旧版本，可能出现“获取词典值失败”等错误。更多迁移说明见 [快捷指令迁移说明](docs/shortcut-guide.md#快捷指令)。
@@ -641,4 +643,3 @@ npm run pages:build
 - 本项目按“原样”提供，不提供任何形式的担保。
 
 不要使用本项目欺骗服务、绕过规则、伪造生产环境定位数据，或在未经授权的设备和网络上使用。
-
