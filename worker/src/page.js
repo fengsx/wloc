@@ -41,6 +41,14 @@ body { font-family:-apple-system,system-ui,"SF Pro","Helvetica Neue",sans-serif;
 .input-row { display:flex; gap:8px; margin-top:10px; }
 .input-row input { flex:1; padding:10px 12px; border:1px solid #d1d1d6; border-radius:8px; font-size:14px; outline:none; min-width:0; }
 .input-row input:focus { border-color:var(--blue); }
+.search-results { margin-top:10px; display:none; }
+.search-results.show { display:block; }
+.search-result { display:block; width:100%; padding:10px 12px; border:0; border-bottom:1px solid #e5e5ea; background:#fff; text-align:left; cursor:pointer; }
+.search-result:last-child { border-bottom:0; }
+.search-result:active, .search-result:hover { background:var(--bg); }
+.search-result-name { display:block; font-size:13px; line-height:1.4; color:#333; }
+.search-result-coords { display:block; margin-top:3px; font-size:11px; color:var(--gray); }
+.search-empty { padding:10px 12px; font-size:13px; color:var(--gray); }
 .status { font-size:12px; color:var(--gray); margin-top:8px; text-align:center; }
 .error-banner { background:var(--red); color:#fff; padding:14px 16px; border-radius:12px; margin-bottom:12px; font-size:14px; line-height:1.5; display:none; }
 .error-banner b { display:block; margin-bottom:4px; }
@@ -148,6 +156,7 @@ body { font-family:-apple-system,system-ui,"SF Pro","Helvetica Neue",sans-serif;
       <input id="searchInput" placeholder="输入地名（如: 上海外滩）" />
       <button class="btn btn-secondary" style="flex:none;min-width:56px" onclick="searchPlace()">搜索</button>
     </div>
+    <div id="searchResults" class="search-results" aria-live="polite"></div>
   </div>
   <div class="card">
     <h3>快捷指令</h3>
@@ -469,18 +478,62 @@ async function parseUrl() {
   toast('已解析: ' + result.lon.toFixed(4) + ', ' + result.lat.toFixed(4));
 }
 
+let searchRequestId = 0;
+
 async function searchPlace() {
   const q = document.getElementById('searchInput').value.trim();
   if (!q) return toast('请输入地名');
-  toast('搜索中...');
+  const requestId = ++searchRequestId;
+  const list = document.getElementById('searchResults');
+  list.replaceChildren();
+  list.classList.add('show');
+  const loading = document.createElement('div');
+  loading.className = 'search-empty';
+  loading.textContent = '搜索中...';
+  list.appendChild(loading);
   try {
-    const r = await fetch('https://nominatim.openstreetmap.org/search?format=json&limit=1&q='+encodeURIComponent(q));
+    const r = await fetch('https://nominatim.openstreetmap.org/search?format=json&limit=8&q='+encodeURIComponent(q));
+    if (!r.ok) throw new Error('搜索服务请求失败');
     const results = await r.json();
-    if (!results.length) { toast('未找到: ' + q, 3000); return; }
-    const p = results[0];
-    moveTo(parseFloat(p.lat), parseFloat(p.lon), 15);
-    toast(p.display_name.slice(0, 40));
-  } catch(e) { toast('搜索失败', 3000); }
+    if (requestId !== searchRequestId) return;
+    list.replaceChildren();
+    const places = Array.isArray(results) ? results.filter(p => {
+      const la = Number(p.lat), lo = Number(p.lon);
+      return Number.isFinite(la) && Number.isFinite(lo) && Math.abs(la) <= 90 && Math.abs(lo) <= 180;
+    }) : [];
+    if (!places.length) {
+      const empty = document.createElement('div');
+      empty.className = 'search-empty';
+      empty.textContent = '未找到匹配地点';
+      list.appendChild(empty);
+      return;
+    }
+    for (const p of places) {
+      const item = document.createElement('button');
+      item.type = 'button';
+      item.className = 'search-result';
+      const name = document.createElement('span');
+      name.className = 'search-result-name';
+      name.textContent = p.display_name || '未命名地点';
+      const coords = document.createElement('span');
+      coords.className = 'search-result-coords';
+      coords.textContent = Number(p.lon).toFixed(6) + ', ' + Number(p.lat).toFixed(6);
+      item.append(name, coords);
+      item.addEventListener('click', () => {
+        moveTo(Number(p.lat), Number(p.lon), 15);
+        list.classList.remove('show');
+        toast('已选择: ' + (p.display_name || '未命名地点').slice(0, 40));
+      });
+      list.appendChild(item);
+    }
+  } catch(e) {
+    if (requestId !== searchRequestId) return;
+    list.replaceChildren();
+    const error = document.createElement('div');
+    error.className = 'search-empty';
+    error.textContent = '搜索失败，请稍后重试';
+    list.appendChild(error);
+  }
 }
 
 document.addEventListener('paste', e => {
@@ -494,6 +547,10 @@ document.addEventListener('paste', e => {
   setTimeout(parseUrl, 200);
 });
 document.getElementById('searchInput').addEventListener('keydown', e => { if(e.key==='Enter') searchPlace(); });
+document.getElementById('searchInput').addEventListener('input', () => {
+  searchRequestId++;
+  document.getElementById('searchResults').classList.remove('show');
+});
 document.getElementById('urlInput').addEventListener('keydown', e => { if(e.key==='Enter') parseUrl(); });
 document.getElementById('favNameInput').addEventListener('keydown', e => { if(e.key==='Enter') confirmFav(); });
 
