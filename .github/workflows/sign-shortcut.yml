@@ -1,0 +1,23 @@
+name: Sign WLOC Shortcut
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - shortcuts/WLOC设置位置-fengsx.shortcut
+      - .github/workflows/sign-shortcut.yml
+
+jobs:
+  sign:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Sign for everyone
+        run: |
+          shortcuts sign --mode anyone \
+            --input 'shortcuts/WLOC设置位置-fengsx.shortcut' \
+            --output 'WLOC设置位置-fengsx-signed.shortcut'
+      - uses: actions/upload-artifact@v4
+        with:
+          name: WLOC设置位置-fengsx-signed
+          path: WLOC设置位置-fengsx-signed.shortcut
