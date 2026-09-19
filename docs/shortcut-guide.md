@@ -15,28 +15,9 @@
 
 ## 快捷指令
 
-### 安装快捷指令
+在 iPhone 上直接安装：[WLOC设置位置](https://www.icloud.com/shortcuts/e0d3b9504c1541f182117fe328f68a5b)（[二维码](../shortcuts/WLOC设置位置-二维码.png)）、[WLOC恢复定位](https://www.icloud.com/shortcuts/fddd99ba529b457088243640b28ded6a)（[二维码](../shortcuts/WLOC恢复定位-二维码.png)）。
 
-- [WLOC设置位置 xepes0](https://www.icloud.com/shortcuts/0a6465168d554135b78008a8b4bd7c01)
-- [wloc 清理恢复位置](https://www.icloud.com/shortcuts/f42632d406504f24a2cd163af4fe012f)
-
-设置位置指令基于原作者版本，由维护者将解析地址改为 `https://wloc.xepesw.workers.dev/api/parse` 后重新分享；恢复位置指令沿用上游 README 的链接。尚未独立复核新版指令的真机运行结果。安装后，在苹果地图选点 → 共享 → 选择设置指令；高德地图通过「分享 → 更多」调用。恢复指令用于清除保存值，不保证立即清除系统定位缓存。
-
-### 替换旧解析服务
-
-本仓库当前选点网页：https://wloc.xepesw.workers.dev/ 。使用该站点时，将旧解析服务的域名替换为 `wloc.xepesw.workers.dev`；解析接口为 `https://wloc.xepesw.workers.dev/api/parse`，原有查询参数和输入变量必须保留。自行部署的用户应使用自己的域名。
-
-1. 按[部署说明](DEPLOYMENT.md)部署自己的 Worker，取得 HTTPS 地址。
-2. 如果已经装过旧指令，先在「快捷指令」App 中复制一份备份，再打开设置指令的编辑界面。
-3. 查找包含 `wloc-spoofer.wloc.workers.dev` 的 URL 或文本动作，把该服务地址替换为自己的 Worker 地址，保留 `/api/parse` 路径、查询参数及输入变量。
-4. 保留 `https://gs-loc.apple.com/wloc-settings/save`。它是客户端拦截的设备保存路径，不是旧公共 Worker。
-5. 用地图分享链接检查解析和保存结果，再运行恢复指令确认清理行为。
-
-README 和模块中的新 GitHub 地址不会自动同步到已安装的快捷指令。如果 iCloud 分享失效，仍可使用自部署选点网页；本仓库未恢复可直接导入的 `.shortcut` 文件。
-
-解析接口：`GET https://wloc.xepesw.workers.dev/api/parse?format=json&u=<URL编码的地图链接>`，成功返回 `lat`、`lon`、`name`。使用「获取词典值」的快捷指令必须保留 `format=json`，并对输入地图链接进行 URL 编码。站点根地址返回选点网页，不能代替解析接口。不带 `format=json` 时默认返回 `lat=...&lon=...` 纯文本，供旧快捷指令兼容使用。保存接口仍为 `https://gs-loc.apple.com/wloc-settings/save`，它由手机代理脚本拦截，不是 Worker 路由；不要将这个 Apple 地址替换为 Worker 域名。
-
-手动构建快捷指令时：接收分享文本 → URL 编码后请求解析接口 → 检查成功 JSON → 将 lat/lon 传给保存接口。恢复操作使用相同保存路径并附 `?action=clear`。先检查失败响应，避免把空结果写入设备。
+设置位置指令使用 `https://wloc.myfeng.workers.dev/api/parse?format=json` 解析地图链接，再通过手机代理模块拦截的 `https://gs-loc.apple.com/wloc-settings/save` 保存坐标。Apple 地图选点后点“共享 → WLOC设置位置”；高德地图可从“分享 → 更多”进入系统分享菜单。恢复指令清除保存值；若要确保停用虚拟位置，还需关闭 WLOC 模块。
 
 ## 排障顺序
 

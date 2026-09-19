@@ -1,6 +1,7 @@
 import { Hono } from "hono/tiny";
 import { getPageHtml } from "./page.js";
 import { parseCoords, gcj02ToWgs84, toWgs84, round6, inRange } from "./parse.js";
+import { SETUP_QR_SVG, RESTORE_QR_SVG } from "./shortcut-qr.js";
 
 const app = new Hono();
 
@@ -13,6 +14,9 @@ app.use('/api/*', async (c, next) => {
 app.get("/", (c) => {
   return c.html(getPageHtml());
 });
+
+app.get("/shortcut-setup-qr.svg", (c) => c.body(SETUP_QR_SVG, 200, { "Content-Type": "image/svg+xml; charset=utf-8" }));
+app.get("/shortcut-restore-qr.svg", (c) => c.body(RESTORE_QR_SVG, 200, { "Content-Type": "image/svg+xml; charset=utf-8" }));
 
 // 地图链接解析: 供快捷指令调用。
 // GET /api/parse?u=<链接>&format=json&cs=<gcj|none>

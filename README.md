@@ -53,7 +53,7 @@ flowchart TD
 → 在“证书信任设置”中开启完全信任
 → 确认代理 / VPN 正常连接
 → 在地图中选择目标位置
-→ 分享到「WLOC设置位置 xepes0」
+→ 分享到「WLOC设置位置」
 → 快捷指令保存坐标并跳转到“定位服务”
 → 关闭定位服务
 → 开启飞行模式
@@ -223,18 +223,20 @@ Certificate
 
 | 快捷指令 | 安装入口 | 用途 |
 | --- | --- | --- |
-| WLOC设置位置 xepes0 | [https://www.icloud.com/shortcuts/0a6465168d554135b78008a8b4bd7c01](https://www.icloud.com/shortcuts/0a6465168d554135b78008a8b4bd7c01) | 从地图分享位置，解析坐标并保存到代理客户端 |
-| wloc 清理恢复位置 | [https://www.icloud.com/shortcuts/f42632d406504f24a2cd163af4fe012f](https://www.icloud.com/shortcuts/f42632d406504f24a2cd163af4fe012f) | 清除已保存的虚拟坐标 |
+| WLOC设置位置 | [点击安装](https://www.icloud.com/shortcuts/e0d3b9504c1541f182117fe328f68a5b) · [二维码](shortcuts/WLOC设置位置-二维码.png) | 从地图分享位置，解析坐标并保存到代理客户端 |
+| WLOC恢复定位 | [点击安装](https://www.icloud.com/shortcuts/fddd99ba529b457088243640b28ded6a) · [二维码](shortcuts/WLOC恢复定位-二维码.png) | 清除已保存的虚拟坐标 |
 
-“WLOC设置位置 xepes0”基于原作者版本，当前解析服务为：
+![设置位置二维码](shortcuts/WLOC设置位置-二维码.png) ![恢复定位二维码](shortcuts/WLOC恢复定位-二维码.png)
+
+“WLOC设置位置”使用本仓库的解析服务：
 
 ```text
-https://wloc.xepesw.workers.dev/api/parse
+https://wloc.myfeng.workers.dev/api/parse
 ```
 
-本仓库的[自用版快捷指令源码](shortcuts/WLOC设置位置-fengsx.shortcut)已把解析地址改为 `https://wloc.myfeng.workers.dev/api/parse`，并更新了内部说明。该文件在 Windows 上生成，未经 Apple 签名，iPhone 可能拒绝直接导入。请先安装上面的 iCloud 版本，再按[使用指南](docs/使用指南.md)在 iPhone 上复制并修改；这样也能检查每个动作的实际内容。
+直接在 iPhone 点击上方 iCloud 链接或扫描二维码即可安装。详细步骤见[使用指南](docs/使用指南.md)。
 
-维护者已对当前快捷指令的 `/api/parse?format=json` 解析链路进行过真机测试。**这只表示快捷指令解析链路可工作，不代表 iOS 27 正式版支持传统 WLOC。**
+已核对两个 iCloud 分享文件：设置位置指令保留地图链接 URL 编码变量，使用本仓库的 `/api/parse?format=json`，再调用手机模块的保存路径；恢复定位指令调用 `?action=clear`。iPhone 13 mini／iOS 26.5 上的实际定位效果仍需真机验证。
 
 已安装的旧快捷指令不会自动更新；如果一直使用旧版本，可能出现“获取词典值失败”等错误。更多迁移说明见 [快捷指令迁移说明](docs/shortcut-guide.md#快捷指令)。
 
@@ -242,7 +244,7 @@ https://wloc.xepesw.workers.dev/api/parse
 
 打开：
 
-**https://wloc.xepesw.workers.dev/**
+**https://wloc.myfeng.workers.dev/**
 
 可以在地图上选点、搜索地点、输入经纬度或粘贴地图分享链接。
 
@@ -278,7 +280,7 @@ flowchart LR
 ### 3. 在系统分享菜单中选择
 
 ```text
-WLOC设置位置 xepes0
+WLOC设置位置
 ```
 
 流程：
@@ -287,7 +289,7 @@ WLOC设置位置 xepes0
 flowchart LR
     A[Apple 地图] --> B[搜索 / 长按选点]
     B --> C[共享]
-    C --> D[WLOC设置位置 xepes0]
+    C --> D[WLOC设置位置]
     D --> E[解析分享链接]
     E --> F[得到经纬度]
     F --> G[保存到 WLOC]
@@ -295,7 +297,7 @@ flowchart LR
 
 ### 分享菜单里没有 WLOC？
 
-先打开“快捷指令”App，手动运行一次“WLOC设置位置 xepes0”，完成系统要求的权限询问。
+先打开“快捷指令”App，手动运行一次“WLOC设置位置”，完成系统要求的权限询问。
 
 然后重新：
 
@@ -306,7 +308,7 @@ Apple 地图
 → 更多
 ```
 
-检查“WLOC设置位置 xepes0”是否出现在系统分享菜单中。
+检查“WLOC设置位置”是否出现在系统分享菜单中。
 
 ## 六、高德地图分享到快捷指令
 
@@ -318,14 +320,14 @@ Apple 地图
 → 分享
 → 更多
 → iOS 系统分享菜单
-→ WLOC设置位置 xepes0
+→ WLOC设置位置
 ```
 
 不要只复制地点名称。快捷指令需要地图分享产生的 URL / 文本，再交给解析接口转换成经纬度。
 
 ## 七、快捷指令保存坐标后：必须按顺序刷新定位
 
-“WLOC设置位置 xepes0”保存坐标后，会跳转到：
+“WLOC设置位置”保存坐标后，会跳转到：
 
 ```text
 设置
@@ -430,7 +432,7 @@ flowchart TD
 
 运行：
 
-**wloc 清理恢复位置**
+**WLOC恢复定位**
 
 也可以通过网页清除已经保存的坐标。
 
@@ -473,7 +475,7 @@ latitude
 当前解析接口使用：
 
 ```text
-https://wloc.xepesw.workers.dev/api/parse?format=json&u=...
+https://wloc.myfeng.workers.dev/api/parse?format=json&u=...
 ```
 
 如果仍在使用旧快捷指令，请改用 README 当前提供的版本。
@@ -490,7 +492,7 @@ https://gs-loc.apple.com/wloc-settings/save
 
 先重新打开 README 当前提供的 iCloud 快捷指令链接。如果 iCloud 分享服务暂时异常，也可以直接使用网页选点：
 
-**https://wloc.xepesw.workers.dev/**
+**https://wloc.myfeng.workers.dev/**
 
 ### 网页显示保存成功，但地图位置不变
 

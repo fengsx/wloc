@@ -1,5 +1,6 @@
 import { GCJ_BROWSER_JS } from "./gcj-browser.js";
 import { SOURCE_URL, MODULE_LINKS } from "./project.js";
+import { SETUP_SHORTCUT_URL, RESTORE_SHORTCUT_URL } from "./shortcut-qr.js";
 
 export function getPageHtml() {
   return `<!DOCTYPE html>
@@ -72,6 +73,10 @@ body { font-family:-apple-system,system-ui,"SF Pro","Helvetica Neue",sans-serif;
 .layer-btn { border:none; background:transparent; padding:6px 10px; border-radius:6px; font-size:12px; font-weight:500; color:#333; cursor:pointer; transition:all .15s; white-space:nowrap; }
 .layer-btn.active { background:var(--blue); color:#fff; }
 .layer-btn:active { transform:scale(.95); }
+.shortcut-grid { display:flex; gap:12px; flex-wrap:wrap; }
+.shortcut-item { flex:1; min-width:190px; text-align:center; }
+.shortcut-item img { width:150px; height:150px; display:block; margin:8px auto; }
+.shortcut-item a { color:var(--blue); font-size:14px; font-weight:600; overflow-wrap:anywhere; }
 @media(max-width:480px) { #map { height:44vh; } .panel { padding:12px; } .layer-btn { padding:5px 7px; font-size:11px; } }
 </style>
 </head>
@@ -142,6 +147,13 @@ body { font-family:-apple-system,system-ui,"SF Pro","Helvetica Neue",sans-serif;
     <div class="input-row">
       <input id="searchInput" placeholder="输入地名（如: 上海外滩）" />
       <button class="btn btn-secondary" style="flex:none;min-width:56px" onclick="searchPlace()">搜索</button>
+    </div>
+  </div>
+  <div class="card">
+    <h3>快捷指令</h3>
+    <div class="shortcut-grid">
+      <div class="shortcut-item"><a href="${SETUP_SHORTCUT_URL}">安装“WLOC设置位置”</a><img src="/shortcut-setup-qr.svg" alt="设置位置快捷指令二维码"><a href="${SETUP_SHORTCUT_URL}">${SETUP_SHORTCUT_URL}</a></div>
+      <div class="shortcut-item"><a href="${RESTORE_SHORTCUT_URL}">安装“WLOC恢复定位”</a><img src="/shortcut-restore-qr.svg" alt="恢复定位快捷指令二维码"><a href="${RESTORE_SHORTCUT_URL}">${RESTORE_SHORTCUT_URL}</a></div>
     </div>
   </div>
   <div class="status" id="status">选好位置后点击「储存到设备」写入代理工具</div>

@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import vm from 'node:vm';
 import app from '../src/index.js';
 import { SOURCE_URL, MODULE_LINKS } from '../src/project.js';
+import { SETUP_SHORTCUT_URL, RESTORE_SHORTCUT_URL } from '../src/shortcut-qr.js';
 
 test('首页包含源码入口且内联脚本可解析', async () => {
   const response = await app.request('/');
@@ -17,6 +18,17 @@ test('首页包含源码入口且内联脚本可解析', async () => {
   const scripts = [...html.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/g)].map(x => x[1]).filter(x => x.trim());
   assert.ok(scripts.length > 0);
   for (const script of scripts) new vm.Script(script);
+  assert.ok(html.includes(`href="${SETUP_SHORTCUT_URL}"`));
+  assert.ok(html.includes(`href="${RESTORE_SHORTCUT_URL}"`));
+});
+
+test('两个快捷指令二维码可以从首页加载', async () => {
+  for (const path of ['/shortcut-setup-qr.svg', '/shortcut-restore-qr.svg']) {
+    const response = await app.request(path);
+    assert.equal(response.status, 200);
+    assert.match(response.headers.get('content-type'), /image\/svg\+xml/);
+    assert.match(await response.text(), /<svg/);
+  }
 });
 
 test('API JSON 坐标结果带 CORS 和 no-store', async () => {
