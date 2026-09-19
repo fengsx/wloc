@@ -93,7 +93,7 @@ flowchart LR
 | Stash | [https://raw.githubusercontent.com/fengsx/wloc/refs/heads/main/modules/wloc.stoverride](https://raw.githubusercontent.com/fengsx/wloc/refs/heads/main/modules/wloc.stoverride) |
 | Shadowrocket | [https://raw.githubusercontent.com/fengsx/wloc/refs/heads/main/modules/wloc.module](https://raw.githubusercontent.com/fengsx/wloc/refs/heads/main/modules/wloc.module) |
 
-选点页面：[https://wloc-fengsx.myfeng.workers.dev/](https://wloc-fengsx.myfeng.workers.dev/)。
+选点页面：[https://wloc.myfeng.workers.dev/](https://wloc.myfeng.workers.dev/)。
 
 [浏览源码](https://github.com/fengsx/wloc) · [部署到 Cloudflare Workers](https://deploy.workers.cloudflare.com/?url=https://github.com/fengsx/wloc/tree/main/worker)
 <!-- subscriptions:end -->
