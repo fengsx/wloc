@@ -17,7 +17,7 @@
 
 在 iPhone 上直接安装：[WLOC设置位置](https://www.icloud.com/shortcuts/e0d3b9504c1541f182117fe328f68a5b)（[二维码](../shortcuts/WLOC设置位置-二维码.png)）、[WLOC恢复定位](https://www.icloud.com/shortcuts/fddd99ba529b457088243640b28ded6a)（[二维码](../shortcuts/WLOC恢复定位-二维码.png)）。
 
-设置位置指令使用 `https://wloc.myfeng.workers.dev/api/parse?format=json` 解析地图链接，再通过手机代理模块拦截的 `https://gs-loc.apple.com/wloc-settings/save` 保存坐标。Apple 地图选点后点“共享 → WLOC设置位置”；高德地图可从“分享 → 更多”进入系统分享菜单。恢复指令清除保存值；若要确保停用虚拟位置，还需关闭 WLOC 模块。
+设置位置指令使用 `https://wloc.fengsx.workers.dev/api/parse?format=json` 解析地图链接，再通过手机代理模块拦截的 `https://gs-loc.apple.com/wloc-settings/save` 保存坐标。Apple 地图选点后点“共享 → WLOC设置位置”；高德地图可从“分享 → 更多”进入系统分享菜单。恢复指令清除保存值；若要确保停用虚拟位置，还需关闭 WLOC 模块。
 
 ## 排障顺序
 

@@ -93,7 +93,7 @@ flowchart LR
 | Stash | [https://raw.githubusercontent.com/fengsx/wloc/refs/heads/main/modules/wloc.stoverride](https://raw.githubusercontent.com/fengsx/wloc/refs/heads/main/modules/wloc.stoverride) |
 | Shadowrocket | [https://raw.githubusercontent.com/fengsx/wloc/refs/heads/main/modules/wloc.module](https://raw.githubusercontent.com/fengsx/wloc/refs/heads/main/modules/wloc.module) |
 
-选点页面：[https://wloc.myfeng.workers.dev/](https://wloc.myfeng.workers.dev/)。
+选点页面：[https://wloc.fengsx.workers.dev/](https://wloc.fengsx.workers.dev/)。
 
 [浏览源码](https://github.com/fengsx/wloc) · [部署到 Cloudflare Workers](https://deploy.workers.cloudflare.com/?url=https://github.com/fengsx/wloc/tree/main/worker)
 <!-- subscriptions:end -->
@@ -231,7 +231,7 @@ Certificate
 “WLOC设置位置”使用本仓库的解析服务：
 
 ```text
-https://wloc.myfeng.workers.dev/api/parse
+https://wloc.fengsx.workers.dev/api/parse
 ```
 
 直接在 iPhone 点击上方 iCloud 链接或扫描二维码即可安装。详细步骤见[使用指南](docs/使用指南.md)。
@@ -244,7 +244,7 @@ https://wloc.myfeng.workers.dev/api/parse
 
 打开：
 
-**https://wloc.myfeng.workers.dev/**
+**https://wloc.fengsx.workers.dev/**
 
 可以在地图上选点、搜索地点、输入经纬度或粘贴地图分享链接。
 
@@ -475,7 +475,7 @@ latitude
 当前解析接口使用：
 
 ```text
-https://wloc.myfeng.workers.dev/api/parse?format=json&u=...
+https://wloc.fengsx.workers.dev/api/parse?format=json&u=...
 ```
 
 如果仍在使用旧快捷指令，请改用 README 当前提供的版本。
@@ -492,7 +492,7 @@ https://gs-loc.apple.com/wloc-settings/save
 
 先重新打开 README 当前提供的 iCloud 快捷指令链接。如果 iCloud 分享服务暂时异常，也可以直接使用网页选点：
 
-**https://wloc.myfeng.workers.dev/**
+**https://wloc.fengsx.workers.dev/**
 
 ### 网页显示保存成功，但地图位置不变
 

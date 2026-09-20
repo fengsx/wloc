@@ -10,7 +10,7 @@ from pathlib import Path
 
 
 OLD = "https://wloc.xepesw.workers.dev/api/parse?format=json&u="
-NEW = "https://wloc.myfeng.workers.dev/api/parse?format=json&u="
+NEW = "https://wloc.fengsx.workers.dev/api/parse?format=json&u="
 
 
 def main(source: Path, destination: Path) -> None:
@@ -37,7 +37,7 @@ def main(source: Path, destination: Path) -> None:
     comment = actions[0]["WFWorkflowActionParameters"]
     if actions[0]["WFWorkflowActionIdentifier"] == "is.workflow.actions.comment":
         comment["WFCommentActionText"] = (
-            "WLOC 自用版。解析服务: https://wloc.myfeng.workers.dev\n"
+            "WLOC 自用版。解析服务: https://wloc.fengsx.workers.dev\n"
             "模块订阅: https://github.com/fengsx/wloc/tree/main/modules"
         )
     with destination.open("wb") as stream:
