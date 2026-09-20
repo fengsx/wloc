@@ -223,7 +223,7 @@ Certificate
 
 | 快捷指令 | 安装入口 | 用途 |
 | --- | --- | --- |
-| WLOC设置位置 | [点击安装](https://www.icloud.com/shortcuts/e0d3b9504c1541f182117fe328f68a5b) · [二维码](shortcuts/WLOC设置位置-二维码.png) | 从地图分享位置，解析坐标并保存到代理客户端 |
+| WLOC设置位置 | [点击安装](https://www.icloud.com/shortcuts/b6dfc95abf344ba9bd4f98f8ad8f68f6) · [二维码](shortcuts/WLOC设置位置-二维码.png) | 从地图分享位置，解析坐标并保存到代理客户端 |
 | WLOC恢复定位 | [点击安装](https://www.icloud.com/shortcuts/fddd99ba529b457088243640b28ded6a) · [二维码](shortcuts/WLOC恢复定位-二维码.png) | 清除已保存的虚拟坐标 |
 
 ![设置位置二维码](shortcuts/WLOC设置位置-二维码.png) ![恢复定位二维码](shortcuts/WLOC恢复定位-二维码.png)
