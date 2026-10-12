@@ -30,7 +30,6 @@ export async function generatedFiles() {
     '| 客户端 | 订阅地址 |', '| --- | --- |',
     ...modules.map(({ name, url }) => `| ${name} | [${url}](${url}) |`),
     '', config.siteUrl ? `选点页面：[${new URL(config.siteUrl).origin}/](${new URL(config.siteUrl).origin}/)。` : '选点页面：尚未配置公共实例，请按下方说明自行部署。',
-    `Shadowrocket CA 持久化模板：[${rawUrl}/modules/wloc-ca.module](${rawUrl}/modules/wloc-ca.module)。`,
     '', `[浏览源码](${repoUrl}) · [部署到 Cloudflare Workers](https://deploy.workers.cloudflare.com/?url=${repoUrl}/tree/${config.branch}/worker)`,
     '<!-- subscriptions:end -->',
   ].join('\n');

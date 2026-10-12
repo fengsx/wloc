@@ -94,7 +94,6 @@ flowchart LR
 | Shadowrocket | [https://raw.githubusercontent.com/fengsx/wloc/refs/heads/main/modules/wloc.module](https://raw.githubusercontent.com/fengsx/wloc/refs/heads/main/modules/wloc.module) |
 
 选点页面：[https://wloc.fengsx.workers.dev/](https://wloc.fengsx.workers.dev/)。
-Shadowrocket CA 持久化模板：[https://raw.githubusercontent.com/fengsx/wloc/refs/heads/main/modules/wloc-ca.module](https://raw.githubusercontent.com/fengsx/wloc/refs/heads/main/modules/wloc-ca.module)。
 
 [浏览源码](https://github.com/fengsx/wloc) · [部署到 Cloudflare Workers](https://deploy.workers.cloudflare.com/?url=https://github.com/fengsx/wloc/tree/main/worker)
 <!-- subscriptions:end -->
@@ -151,27 +150,26 @@ Quantumult X、Stash、Egern 同理，在模块 / 重写 / Override 等页面导
 >
 > WLOC 还必须开启 MITM / HTTPS 解密，并安装、完全信任代理客户端生成的 CA 证书。
 
-### Shadowrocket：避免更新配置后重复安装 CA
+### Shadowrocket：在 WLOC 模块中持久化 CA
 
-WLOC 功能模块只负责脚本和解密域名，不能安全地在公开仓库中携带你的 CA 私钥。Shadowrocket 的 CA 状态又跟随当前完整配置，因此直接更新或切换完整配置后，可能需要重新关联证书。
+Shadowrocket 的 `wloc.module` 已把 WLOC 脚本、MITM 域名和本地 CA 参数合并。公开模块不携带 CA 私钥；证书内容通过“编辑参数”只保存在手机本地。
 
-安装 [WLOC CA 持久化模板](modules/wloc-ca.module) 可以把现有 CA 作为本机模块参数保存：
+安装并启用 `wloc.module` 后：
 
 ```text
 1. 在当前已能正常解密的配置中，进入 HTTPS 解密 → 证书详情 → 复制证书内容
-2. 从 URL 安装 wloc-ca.module，并启用模块
-3. 打开模块“编辑参数”
-4. 启用证书 = true
-5. 证书密码 = 当前证书密码（Shadowrocket 默认通常为 Shadowrocket）
-6. 证书内容 = 第 1 步复制的完整内容
+2. 打开 WLOC 模块“编辑参数”
+3. 启用证书 = true
+4. 证书密码 = 当前证书密码（Shadowrocket 默认通常为 Shadowrocket）
+5. 证书内容 = 第 1 步复制的完整内容
 ```
 
-完成后，证书内容保存在 Shadowrocket 本机参数中；更新主规则或 WLOC 功能模块时不会被远程文件替换。iOS 系统中仍需对这张证书保持“完全信任”。
+参数名称保持固定，远程更新 WLOC 模块时本地参数不会被模块正文替换。更新或切换完整 Shadowrocket 配置后，同一模块会恢复 HTTPS 解密、CA 和 WLOC 域名。iOS 系统中仍需对这张证书保持“完全信任”。
 
 > [!CAUTION]
-> CA 内容包含私钥。不要把填写后的模块导出、分享、上传或提交到 GitHub。公开地址只提供空模板，不包含任何证书。
+> CA 内容包含私钥。不要把填写后的 WLOC 模块导出、分享、上传或提交到 GitHub。
 
-如果当前配置已经失去 CA 关联，需要最后重新生成或安装一次证书，然后立刻按上述步骤保存到本地证书模块。之后正常更新规则不应再要求重复安装。
+如果当前配置已经失去 CA 关联，需要最后重新生成或安装一次证书，然后立刻按上述步骤保存到 WLOC 模块参数。之后正常更新规则不应再要求重复安装。
 
 ## 二、开启 MITM 并安装、信任证书
 

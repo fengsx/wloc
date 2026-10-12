@@ -4,10 +4,15 @@
 #!homepage={{REPO_URL}}
 #!icon={{RAW_URL}}/wloc.jpg
 #!category=Tools
+#!arguments=启用证书:false, 证书密码:Shadowrocket, 证书内容:
+#!arguments-desc=CA 参数只保存在 Shadowrocket 本机；先复制当前已信任证书的完整内容，再粘贴到“证书内容”。禁止分享填写后的模块
 
 [Script]
 Apple WLOC = type=http-response,pattern=^https?:\/\/(?:gs-loc(?:-cn)?\.apple\.com|gsp-ssl\.ls\.apple\.com|bluedot\.is\.autonavi\.com(?:\.gds\.alibabadns\.com)?)\/clls\/wloc,requires-body=1,binary-body-mode=1,max-size=0,timeout=30,script-path={{RAW_URL}}/dist/wloc.js,argument=longitude=113.94114&latitude=22.544577&accuracy=25&randomRadius=0&logLevel=info
 WLOC Settings = type=http-request,pattern=^https?:\/\/gs-loc(-cn)?\.apple\.com\/wloc-settings\/save,requires-body=0,max-size=0,timeout=10,script-path={{RAW_URL}}/dist/wloc-settings.js
 
 [MITM]
+enable={{{启用证书}}}
+ca-passphrase={{{证书密码}}}
+ca-p12={{{证书内容}}}
 hostname = %APPEND% gs-loc.apple.com, gs-loc-cn.apple.com, gsp-ssl.ls.apple.com, bluedot.is.autonavi.com, bluedot.is.autonavi.com.gds.alibabadns.com
