@@ -24,6 +24,12 @@ for (const [name, expected] of Object.entries(manifest.files)) {
 for (const name of await readdir(path.join(root, 'modules'))) {
   const content = await readFile(path.join(root, 'modules', name), 'utf8');
   if (/Yu9191\/wloc|wloc-pages\.pages\.dev|wloc-spoofer\.wloc\.workers\.dev|icloud\.com\/shortcuts/.test(content)) errors.push(`${name} 仍含旧运行链接`);
+  if (name === 'wloc-ca.module') {
+    for (const key of ['enable={{{启用证书}}}', 'ca-passphrase={{{证书密码}}}', 'ca-p12={{{证书内容}}}']) {
+      if (!content.includes(key)) errors.push(`${name} 缺少本地证书参数：${key}`);
+    }
+    continue;
+  }
   for (const target of ['dist/wloc.js', 'dist/wloc-settings.js']) if (!content.includes(target)) errors.push(`${name} 缺少 ${target}`);
 }
 for (const name of ['README.md', 'CONTRIBUTING.md', 'SECURITY.md', 'CHANGELOG.md', 'NOTICE.md', ...['DEPLOYMENT.md', 'PROVENANCE.md', 'MAINTENANCE.md', 'shortcut-guide.md'].map(x => `docs/${x}`)]) {
